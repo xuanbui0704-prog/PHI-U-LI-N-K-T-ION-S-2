@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phiếu học tập: Liên kết ion - Hóa học 10</title>
+<style>
+  :root {
+    --primary: #1e40af;
+    --primary-light: #3b82f6;
+    --accent: #059669;
+    --bg: #f0f4f8;
+    --card: #ffffff;
+    --text: #1e293b;
+    --border: #cbd5e1;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 20px 12px;
+    line-height: 1.5;
+  }
+  .wrap {
+    max-width: 920px;
+    margin: auto;
+  }
+  header {
+    background: linear-gradient(135deg, #1e3a8a, #0d9488);
+    color: white;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+  }
+  header h1 {
+    margin: 0 0 8px 0;
+    font-size: clamp(20px, 4.5vw, 28px);
+    letter-spacing: -0.5px;
+  }
+  header p {
+    margin: 0 0 16px 0;
+    opacity: 0.9;
+    font-size: 15px;
+  }
+  .meta-inputs {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .meta-inputs label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .meta-inputs input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    outline: none;
+    color: #1e293b;
+    width: 180px;
+  }
+  section {
+    background: var(--card);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border: 1px solid #e2e8f0;
+  }
+  section h2 {
+    margin: 0 0 6px 0;
+    font-size: 18px;
+    color: var(--primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .badge {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-size: 13px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .hint {
+    color: #64748b;
+    font-size: 13.5px;
+    margin: 0 0 16px 0;
+  }
+  .q {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 14px;
+    background: #fafcff;
+    transition: all 0.2s;
+  }
+  .q:hover {
+    border-color: #93c5fd;
+  }
+  .q-title {
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 15px;
+  }
+  .options label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14.5px;
+  }
+  .options label:hover {
+    background: #f1f5f9;
+  }
+  .options input[type="radio"] {
+    margin-top: 3px;
+  }
+  table.tf-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 14px;
+  }
+  table.tf-table th, table.tf-table td {
+    border: 1px solid #e2e8f0;
+    padding: 10px;
+  }
+  table.tf-table th {
+    background: #f8fafc;
+    text-align: left;
+    font-weight: 600;
+  }
+  select, input[type="text"], input[type="number"] {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    background: #fff;
+  }
+  select:focus, input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+  }
+  .btn-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+  }
+  button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    transition: 0.15s;
+  }
+  .btn-submit {
+    background: #2563eb;
+    color: white;
+  }
+  .btn-submit:hover {
+    background: #1d4ed8;
+  }
+  .btn-key {
+    background: #0d9488;
+    color: white;
+  }
+  .btn-key:hover {
+    background: #0f766e;
+  }
+  .btn-reset {
+    background: #e2e8f0;
+    color: #334155;
+  }
+  .btn-reset:hover {
+    background: #cbd5e1;
+  }
+  #result {
+    padding: 16px;
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 10px;
+    color: #065f46;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
+    margin-bottom: 20px;
+  }
+  #key {
+    display: none;
+    background: #fff8f1;
+    border: 1px solid #fed7aa;
+    border-radius: 10px;
+    padding: 18px;
+    font-size: 14.5px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  .key-section {
+    margin-bottom: 12px;
+  }
+  .key-title {
+    font-weight: bold;
+    color: #c2410c;
+  }
+  .sub-note {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+  }
+  sup, sub {
+    line-height: 0;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>⚛️ PHIẾU HỌC TẬP: LIÊN KẾT ION VÀ HỢP CHẤT ION</h1>
+    <p>Hóa học THPT · Đánh giá năng lực hóa học · Thang điểm chuẩn: 10,0 điểm</p>
+    <div class="meta-inputs">
+      <label>Họ và tên: <input id="name" placeholder="Nguyễn Văn A"></label>
+      <label>Lớp: <input id="class" placeholder="10A..."></label>
+      <label>Ngày làm: <input id="date" type="text" value="Hôm nay"></label>
+    </div>
+  </header>
+
+  <!-- PHẦN 1 -->
+  <section>
+    <h2>
+      Phần 1. Trắc nghiệm nhiều lựa chọn khách quan
+      <span class="badge">2,5 điểm</span>
+    </h2>
+    <p class="hint">Gồm 10 câu hỏi (0,25 điểm/câu). Chọn một phương án đúng nhất trong mỗi câu.</p>
+    <div id="mcq-container"></div>
+  </section>
+
+  <!-- PHẦN 2 -->
+  <section>
+    <h2>
+      Phần 2. Câu hỏi Trắc nghiệm Đúng - Sai
+      <span class="badge">2,5 điểm</span>
+    </h2>
+    <p class="hint">Gồm 3 câu hỏi (mỗi câu 4 ý a, b, c, d). Chấm điểm chuẩn hóa: đúng 1 ý = 0,1đ; đúng 2 ý = 0,25đ; đúng 3 ý = 0,5đ; đúng 4 ý = 0,833đ (tổng 3 câu = 2,5 điểm).</p>
+    <div id="tf-container"></div>
+  </section>
+
+  <!-- PHẦN 3 -->
+  <section>
+    <h2>
+      Phần 3. Câu hỏi Trả lời ngắn dạng số
+      <span class="badge">2,5 điểm</span>
+    </h2>
+    <p class="hint">Gồm 8 câu hỏi (0,3125 điểm/câu). Nhập kết quả là số nguyên hoặc số thập phân theo yêu cầu.</p>
+    <div id="short-container"></div>
+  </section>
+
+  <!-- PHẦN 4 -->
+  <section>
+    <h2>
+      Phần 4. Xác định thành phần ion tạo hợp chất
+      <span class="badge">2,5 điểm</span>
+    </h2>
+    <p class="hint">Gồm 5 hợp chất (0,5 điểm/hợp chất). Hãy chọn đúng cation và anion tạo nên hợp chất ion đó.</p>
+    <div id="match-container"></div>
+  </section>
+
+  <div class="btn-group">
+    <button class="btn-submit" onclick="grade()">Nộp bài – Chấm điểm</button>
+    <button class="btn-key" onclick="toggleKey()">Xem đáp án & Giải thích</button>
+    <button class="btn-reset" onclick="resetForm()">Làm lại từ đầu</button>
+  </div>
+
+  <div id="result"></div>
+  <div id="key"></div>
+</div>
+
+<script>
+// --- DỮ LIỆU CÂU HỎI CHUẨN HOÁ HỌC 10 ---
+const mcqData = [
+  {
+    q: "Bản chất của liên kết ion trong tinh thể hợp chất là gì?",
+    options: [
+      "Lực hút tĩnh điện giữa các ion mang điện tích trái dấu",
+      "Sự dùng chung một hoặc nhiều cặp electron giữa các nguyên tử",
+      "Lực hút giữa các phân tử phân cực với nhau",
+      "Lực tương tác Van der Waals giữa các hạt mang điện"
+    ],
+    ans: 0
+  },
+  {
+    q: "Nguyên tử nguyên tố X có cấu hình electron [Ne]3s²3p⁵. Khi hình thành ion, X có xu hướng nào sau đây?",
+    options: [
+      "Nhường 7 electron để đạt cấu hình giống Ne",
+      "Nhận thêm 1 electron để đạt cấu hình octet bền vững của Ar",
+      "Nhường 1 electron để tạo cation X⁺",
+      "Nhận 3 electron để đạt lớp vỏ bão hòa"
+    ],
+    ans: 1
+  },
+  {
+    q: "Nguyên tử Fe (Z = 26) có cấu hình electron [Ar]3d⁶4s². Cation Fe³⁺ có cấu hình electron phân lớp ngoài cùng là:",
+    options: [
+      "[Ar]3d⁵",
+      "[Ar]3d³4s²",
+      "[Ar]3d⁴4s¹",
+      "[Ar]3d⁶"
+    ],
+    ans: 0
+  },
+  {
+    q: "Trong các ion sau: Na⁺ (Z=11), Mg²⁺ (Z=12), F⁻ (Z=9), O²⁻ (Z=8). Ion nào có bán kính lớn nhất?",
+    options: [
+      "Mg²⁺",
+      "Na⁺",
+      "F⁻",
+      "O²⁻"
+    ],
+    ans: 3
+  },
+  {
+    q: "Cặp ion nào sau đây có cấu hình electron đều giống với khí hiếm Argon (Ar, Z=18)?",
+    options: [
+      "Na⁺ và Cl⁻",
+      "Ca²⁺ và S²⁻",
+      "Mg²⁺ và O²⁻",
+      "Al³⁺ và F⁻"
+    ],
+    ans: 1
+  },
+  {
+    q: "Theo thang độ âm điện Pauling, hiệu độ âm điện (Δχ) giữa hai nguyên tử liên kết thường nằm trong khoảng nào thì liên kết được coi là mang bản chất ion chủ yếu?",
+    options: [
+      "0,0 ≤ Δχ < 0,4",
+      "0,4 ≤ Δχ < 1,7",
+      "Δχ ≥ 1,7",
+      "Δχ ≥ 2,5"
+    ],
+    ans: 2
+  },
+  {
+    q: "Đặc điểm nào sau đây KHÔNG PHẢI là tính chất chung của hợp chất ion?",
+    options: [
+      "Nhiệt độ nóng chảy và nhiệt độ sôi thường rất cao",
+      "Ở trạng thái rắn khan dẫn điện tốt",
+      "Thường giòn và dễ vỡ vụn khi chịu tác động cơ học",
+      "Dẫn điện khi tan trong nước hoặc khi nóng chảy"
+    ],
+    ans: 1
+  },
+  {
+    q: "Cho các chất sau: NaCl, AlCl₃, BaCl₂, PCl₅, NH₄Cl. Số chất có chứa liên kết ion trong phân tử là:",
+    options: [
+      "2",
+      "3",
+      "4",
+      "5"
+    ],
+    ans: 1 // NaCl, BaCl2, NH4Cl (AlCl3 và PCl5 là liên kết cộng hóa trị)
+  },
+  {
+    q: "Cation Al³⁺ có điện tích hạt nhân là +13e. Nhận định nào sau đây là chính xác?",
+    options: [
+      "Al³⁺ có 10 proton và 13 electron",
+      "Al³⁺ có 13 proton và 10 electron",
+      "Al³⁺ có 16 proton và 13 electron",
+      "Al³⁺ nhận 3 electron từ nguyên tử phi kim"
+    ],
+    ans: 1
+  },
+  {
+    q: "Dãy gồm các ion đều là ion đa nguyên tử là:",
+    options: [
+      "NH₄⁺, SO₄²⁻, NO₃⁻, CO₃²⁻",
+      "Na⁺, NH₄⁺, Cl⁻, PO₄³⁻",
+      "O²⁻, S²⁻, OH⁻, Al³⁺",
+      "Fe³⁺, Cu²⁺, MnO₄⁻, ClO⁻"
+    ],
+    ans: 0
+  }
+];
+
+// CẬP NHẬT Ý a, Ý b CỦA CÂU 2 (PHẦN 2) THEO YÊU CẦU
+const tfData = [
+  {
+    title: "Câu 1. Về sự hình thành tinh thể muối ăn NaCl từ các đơn chất kim loại sodium và khí chlorine:",
+    items: [
+      { text: "Trong quá trình phản ứng, nguyên tử Na nhường 1 electron ở phân lớp 3s để tạo thành cation Na⁺ có cấu hình khí hiếm Ne.", val: true },
+      { text: "Mỗi nguyên tử Cl nhận 1 electron tạo thành anion chloride Cl⁻ có cấu hình khí hiếm Ar.", val: true },
+      { text: "Lực hút tĩnh điện giữa ion Na⁺ và Cl⁻ không có tính định hướng và không có tính bão hòa.", val: true },
+      { text: "Trong tinh thể NaCl khan ở nhiệt độ phòng, các electron tự do di chuyển làm cho tinh thể dẫn điện tốt.", val: false }
+    ]
+  },
+  {
+    title: "Câu 2. Về cấu trúc tinh thể, độ bền và tính chất của hợp chất ion:",
+    items: [
+      { text: "Trong tinh thể NaCl, mỗi ion Na⁺ được bao quanh bởi đúng 6 ion Cl⁻ và ngược lại, mỗi ion Cl⁻ cũng được bao quanh bởi đúng 6 ion Na⁺ (phối trí 6:6).", val: true },
+      { text: "Dung dịch muối ăn NaCl dẫn được điện là do phân tử NaCl phân li trong nước tạo ra các electron tự do chuyển động có hướng.", val: false },
+      { text: "Khi tác dụng một lực cơ học mạnh, tinh thể ion dễ bị nứt vỡ do các lớp ion bị trượt, làm các ion cùng điện tích tiến lại gần nhau gây lực đẩy.", val: true },
+      { text: "Mọi hợp chất chứa kim loại và phi kim trong bảng tuần hoàn đều thuộc loại liên kết ion điển hình (ví dụ: AlCl₃, BeCl₂).", val: false }
+    ]
+  },
+  {
+    title: "Câu 3. Về phân loại và số lượng hạt cấu tạo trong ion:",
+    items: [
+      { text: "Trong ion đa nguyên tử amoni (NH₄⁺), nguyên tử N đóng góp cặp electron tự do tạo liên kết cho - nhận với ion H⁺.", val: true },
+      { text: "Số proton của nguyên tử không bao giờ thay đổi khi nguyên tử chuyển thành cation hoặc anion.", val: true },
+      { text: "Cation Al³⁺ và anion N³⁻ có cùng số electron (đẳng electron) và cùng bán kính ion.", val: false },
+      { text: "Hợp chất NH₄NO₃ chỉ chứa toàn bộ liên kết cộng hóa trị, hoàn toàn không có liên kết ion.", val: false }
+    ]
+  }
+];
+
+// CẬP NHẬT CÂU 7 PHẦN 3 THEO YÊU CẦU
+const shortData = [
+  { q: "Tổng số electron có trong một cation Al³⁺ (biết Z<sub>Al</sub> = 13) là:", ans: 10 },
+  { q: "Tổng số electron có trong một anion sunfua S²⁻ (biết Z<sub>S</sub> = 16) là:", ans: 18 },
+  { q: "Tổng số electron có trong một ion đa nguyên tử amoni NH₄⁺ (biết Z<sub>N</sub> = 7, Z<sub>H</sub> = 1) là:", ans: 10 },
+  { q: "Tổng số hạt mang điện (gồm cả proton và electron) trong một anion sunfat SO₄²⁻ (biết Z<sub>S</sub> = 16, Z<sub>O</sub> = 8) là:", ans: 98 },
+  { q: "Tổng số electron có trong tất cả các ion cấu thành một đơn vị công thức muối nhôm oxit Al₂O₃ (gồm 2 ion Al³⁺ và 3 ion O²⁻; Z<sub>Al</sub>=13, Z<sub>O</sub>=8) là:", ans: 50 },
+  { q: "Một cation X²⁺ có tổng số hạt mang điện trong hạt nhân là 20. Điện tích hạt nhân của nguyên tử X là +Z (với Z bằng bao nhiêu)?", ans: 20 },
+  { q: "Một hợp chất ion gồm cation kim loại M³⁺ và anion phi kim X²⁻. Biết tổng số electron trong 1 cation M³⁺ là 10, trong 1 anion X²⁻ là 10. Tổng số hạt proton có trong 1 đơn vị công thức M₂X₃ là bao nhiêu?", ans: 50 },
+  { q: "Cho các ion sau: Na⁺, Cl⁻, Ca²⁺, NO₃⁻, SO₄²⁻, NH₄⁺, Al³⁺, CO₃²⁻. Có bao nhiêu ion đa nguyên tử trong dãy?", ans: 4 }
+];
+
+const matchData = [
+  { compound: "Al₂(SO₄)₃", cation: "Al³⁺", anion: "SO₄²⁻" },
+  { compound: "NH₄NO₃", cation: "NH₄⁺", anion: "NO₃⁻" },
+  { compound: "Ca₃(PO₄)₂", cation: "Ca²⁺", anion: "PO₄³⁻" },
+  { compound: "Fe₂(SO₄)₃", cation: "Fe³⁺", anion: "SO₄²⁻" },
+  { compound: "Mg(HCO₃)₂", cation: "Mg²⁺", anion: "HCO₃⁻" }
+];
+
+const cationsList = ["Na⁺", "K⁺", "Mg²⁺", "Ca²⁺", "Al³⁺", "Fe²⁺", "Fe³⁺", "NH₄⁺", "Ba²⁺"];
+const anionsList = ["F⁻", "Cl⁻", "O²⁻", "S²⁻", "NO₃⁻", "SO₄²⁻", "CO₃²⁻", "PO₄³⁻", "HCO₃⁻", "OH⁻"];
+
+// --- RENDER GIAO DIỆN ---
+function renderQuiz() {
+  // Render MCQ
+  const mcqBox = document.getElementById("mcq-container");
+  mcqBox.innerHTML = mcqData.map((item, i) => `
+    <div class="q">
+      <div class="q-title">Câu ${i+1}. ${item.q}</div>
+      <div class="options">
+        ${item.options.map((opt, j) => `
+          <label>
+            <input type="radio" name="mcq_${i}" value="${j}">
+            <b>${"ABCD"[j]}.</b> ${opt}
+          </label>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+
+  // Render True/False
+  const tfBox = document.getElementById("tf-container");
+  tfBox.innerHTML = tfData.map((item, i) => `
+    <div class="q">
+      <div class="q-title">${item.title}</div>
+      <table class="tf-table">
+        <thead>
+          <tr>
+            <th style="width: 78%;">Phát biểu</th>
+            <th style="width: 22%; text-align: center;">Đánh giá</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${item.items.map((sub, j) => `
+            <tr>
+              <td><b>${"abcd"[j]})</b> ${sub.text}</td>
+              <td style="text-align: center;">
+                <select id="tf_${i}_${j}">
+                  <option value="">-- Chọn --</option>
+                  <option value="true">Đúng</option>
+                  <option value="false">Sai</option>
+                </select>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `).join("");
+
+  // Render Short
+  const shortBox = document.getElementById("short-container");
+  shortBox.innerHTML = shortData.map((item, i) => `
+    <div class="q" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+      <div style="flex: 1; min-width: 260px;"><b>Câu ${i+1}.</b> ${item.q}</div>
+      <div>
+        <input type="text" id="short_${i}" placeholder="Nhập đáp số" style="width: 140px; text-align: center; font-weight: bold;">
+      </div>
+    </div>
+  `).join("");
+
+  // Render Match
+  const matchBox = document.getElementById("match-container");
+  matchBox.innerHTML = matchData.map((item, i) => `
+    <div class="q" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+      <div style="font-size: 16px; font-weight: bold; color: #1e3a8a; min-width: 140px;">
+        ${i+1}. ${item.compound}
+      </div>
+      <div style="display: flex; gap: 14px; align-items: center; flex-wrap: wrap;">
+        <label><b>Cation:</b> 
+          <select id="cat_${i}">
+            <option value="">-- Chọn Cation --</option>
+            ${cationsList.map(c => `<option value="${c}">${c}</option>`).join("")}
+          </select>
+        </label>
+        <label><b>Anion:</b> 
+          <select id="an_${i}">
+            <option value="">-- Chọn Anion --</option>
+            ${anionsList.map(a => `<option value="${a}">${a}</option>`).join("")}
+          </select>
+        </label>
+      </div>
+    </div>
+  `).join("");
+}
+
+// --- CHẤM ĐIỂM ---
+function grade() {
+  let scoreP1 = 0;
+  let scoreP2 = 0;
+  let scoreP3 = 0;
+  let scoreP4 = 0;
+
+  // Phần 1: 10 câu x 0.25 = 2.5đ
+  mcqData.forEach((item, i) => {
+    const sel = document.querySelector(`input[name="mcq_${i}"]:checked`);
+    if (sel && parseInt(sel.value) === item.ans) {
+      scoreP1 += 0.25;
+    }
+  });
+
+  // Phần 2: 3 câu
+  tfData.forEach((item, i) => {
+    let correctCount = 0;
+    item.items.forEach((sub, j) => {
+      const val = document.getElementById(`tf_${i}_${j}`).value;
+      if (val === String(sub.val)) {
+        correctCount++;
+      }
+    });
+    if (correctCount === 1) scoreP2 += 0.1;
+    else if (correctCount === 2) scoreP2 += 0.25;
+    else if (correctCount === 3) scoreP2 += 0.5;
+    else if (correctCount === 4) scoreP2 += (2.5 / 3);
+  });
+
+  // Phần 3: 8 câu x 0.3125 = 2.5đ
+  shortData.forEach((item, i) => {
+    const val = document.getElementById(`short_${i}`).value.trim().replace(',', '.');
+    if (val !== "" && Math.abs(parseFloat(val) - item.ans) < 0.01) {
+      scoreP3 += 0.3125;
+    }
+  });
+
+  // Phần 4: 5 câu x 0.5 = 2.5đ
+  matchData.forEach((item, i) => {
+    const userCat = document.getElementById(`cat_${i}`).value;
+    const userAn = document.getElementById(`an_${i}`).value;
+    if (userCat === item.cation && userAn === item.anion) {
+      scoreP4 += 0.5;
+    }
+  });
+
+  const total = scoreP1 + scoreP2 + scoreP3 + scoreP4;
+  const name = document.getElementById("name").value.trim() || "Thí sinh";
+  const className = document.getElementById("class").value.trim() || "Tự do";
+
+  const resDiv = document.getElementById("result");
+  resDiv.style.display = "block";
+  resDiv.innerHTML = `
+    🎉 KẾT QUẢ: <b>${name}</b> (Lớp: <b>${className}</b>)<br>
+    <div style="font-size: 15px; font-weight: normal; margin-top: 8px;">
+      • Phần 1 (Trắc nghiệm 4 lựa chọn): <b>${scoreP1.toFixed(2)}</b> / 2.50 điểm<br>
+      • Phần 2 (Trắc nghiệm Đúng - Sai): <b>${scoreP2.toFixed(2)}</b> / 2.50 điểm<br>
+      • Phần 3 (Trả lời ngắn): <b>${scoreP3.toFixed(2)}</b> / 2.50 điểm<br>
+      • Phần 4 (Ghép nối cation - anion): <b>${scoreP4.toFixed(2)}</b> / 2.50 điểm<br>
+      👉 <b>TỔNG ĐIỂM: <span style="font-size: 22px; color: ${total >= 8 ? '#15803d' : (total >= 5 ? '#b45309' : '#b91c1c')}">${total.toFixed(2)}</span> / 10,0 điểm</b>
+    </div>
+  `;
+  resDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+// --- HIỂN THỊ ĐÁP ÁN & LỜI GIẢI CHI TIẾT ---
+function toggleKey() {
+  const k = document.getElementById("key");
+  if (k.style.display === "block") {
+    k.style.display = "none";
+    return;
+  }
+  k.style.display = "block";
+  k.innerHTML = `
+    <h3 style="margin-top:0; color:#c2410c;">BẢNG ĐÁP ÁN VÀ HƯỚNG DẪN GIẢI CHI TIẾT</h3>
+    
+    <div class="key-section">
+      <div class="key-title">PHẦN 1. TRẮC NGHIỆM KHÁCH QUAN</div>
+      ${mcqData.map((item, i) => `<b>Câu ${i+1}: ${"ABCD"[item.ans]}</b>`).join(" | ")}
+      <div class="sub-note">
+        * Chú ý Câu 3: Fe ([Ar]3d⁶4s²) khi nhường electron sẽ nhường ở phân lớp 4s trước rồi mới đến 3d → Fe³⁺ là [Ar]3d⁵.<br>
+        * Chú ý Câu 4: Các ion O²⁻, F⁻, Na⁺, Mg²⁺ đều có 10 electron (đẳng electron). Bán kính giảm dần khi điện tích hạt nhân Z tăng: O²⁻ (Z=8) > F⁻ (Z=9) > Na⁺ (Z=11) > Mg²⁺ (Z=12). Ion có bán kính lớn nhất là O²⁻.<br>
+        * Chú ý Câu 8: AlCl₃ và PCl₅ có liên kết cộng hóa trị do hiệu độ âm điện không đủ lớn và bản chất liên kết cộng hóa trị phân cực cao.
+      </div>
+    </div>
+
+    <div class="key-section">
+      <div class="key-title">PHẦN 2. ĐÚNG - SAI</div>
+      • <b>Câu 1:</b> a - Đúng | b - Đúng | c - Đúng | d - Sai (Tinh thể NaCl khan không dẫn điện vì các ion bị giữ chặt ở nút mạng, không di chuyển tự do).<br>
+      • <b>Câu 2:</b><br>
+        - a) <b>Đúng:</b> Trong mạng tinh thể lập phương tâm mặt của NaCl, số phối trí của Na⁺ và Cl⁻ đều bằng 6.<br>
+        - b) <b>Sai:</b> Hợp chất ion dẫn điện trong dung dịch do sự phân li thành các <b>ion tự do</b> (cation Na⁺ và anion Cl⁻) chuyển động định hướng dưới tác dụng của điện trường, hoàn toàn <b>không có electron tự do</b>.<br>
+        - c) <b>Đúng:</b> Tác dụng lực làm các lớp ion trượt, các ion cùng điện tích tiến lại gần nhau gây lực đẩy tĩnh điện làm tinh thể vỡ.<br>
+        - d) <b>Sai:</b> BeCl₂, AlCl₃ là hợp chất có liên kết cộng hóa trị phân cực.<br>
+      • <b>Câu 3:</b> a - Đúng | b - Đúng | c - Sai (Al³⁺ và N³⁻ cùng có 10 electron nhưng Z<sub>Al</sub>=13 > Z<sub>N</sub>=7 nên bán kính N³⁻ lớn hơn Al³⁺ rất nhiều) | d - Sai (NH₄NO₃ chứa liên kết ion giữa NH₄⁺ và NO₃⁻).
+    </div>
+
+    <div class="key-section">
+      <div class="key-title">PHẦN 3. TRẢ LỜI NGẮN</div>
+      1. <b>10</b> (Al nhường 3e: 13 - 3 = 10)<br>
+      2. <b>18</b> (S nhận 2e: 16 + 2 = 18)<br>
+      3. <b>10</b> (7 + 4×1 - 1 = 10)<br>
+      4. <b>98</b> (Tổng p = 16 + 4×8 = 48. Tổng e = 48 + 2 = 50. Tổng hạt mang điện = 48 + 50 = 98)<br>
+      5. <b>50</b> (Al³⁺ có 10e, O²⁻ có 10e → 2×10 + 3×10 = 50)<br>
+      6. <b>20</b> (Hạt mang điện trong hạt nhân là proton → Z = 20)<br>
+      7. <b>50</b> (M³⁺ có 10e → Z_M = 10 + 3 = 13 (Al); X²⁻ có 10e → Z_X = 10 - 2 = 8 (O). Trong M₂X₃ có: 2×13 + 3×8 = 50 proton)<br>
+      8. <b>4</b> (Gồm: NO₃⁻, SO₄²⁻, NH₄⁺, CO₃²⁻)
+    </div>
+
+    <div class="key-section">
+      <div class="key-title">PHẦN 4. GHÉP ION TẠO HỢP CHẤT</div>
+      1. Al₂(SO₄)₃ : Cation <b>Al³⁺</b> & Anion <b>SO₄²⁻</b><br>
+      2. NH₄NO₃ : Cation <b>NH₄⁺</b> & Anion <b>NO₃⁻</b><br>
+      3. Ca₃(PO₄)₂ : Cation <b>Ca²⁺</b> & Anion <b>PO₄³⁻</b><br>
+      4. Fe₂(SO₄)₃ : Cation <b>Fe³⁺</b> & Anion <b>SO₄²⁻</b><br>
+      5. Mg(HCO₃)₂ : Cation <b>Mg²⁺</b> & Anion <b>HCO₃⁻</b>
+    </div>
+  `;
+  k.scrollIntoView({ behavior: 'smooth' });
+}
+
+function resetForm() {
+  if (confirm("Bạn có chắc chắn muốn làm lại từ đầu?")) {
+    location.reload();
+  }
+}
+
+renderQuiz();
+</script>
+</body>
+</html>
